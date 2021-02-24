@@ -6,22 +6,25 @@ import contacts from "./contacts.json";
 
 class App extends React.Component {
 
-  state = {
-    contacts: contacts.slice(0, 5)
+  constructor() {
+    super();
+    this.state = {
+      contacts: contacts.slice(0, 5),
+      unrenderedContacts: contacts.slice(5)
+    }
   }
 
   addRandomContact = () => {
-    this.setState((state, props) => ({
-      contacts: [...this.state.contacts, contacts[Math.floor(Math.random() * Math.floor(contacts.length))]]
-    }))
-  }
+    const randIndex = Math.floor(Math.random() * this.state.unrenderedContacts.length);
+    const randomContact = this.state.unrenderedContacts[randIndex];
+    const unrenderedContacts = [...this.state.unrenderedContacts];
+    unrenderedContacts.splice(randIndex, 1)
 
-  // Why does this function crash the app and the one above doesn't?
-  // addRandomContact() {
-  //   this.setState((state, props) => ({
-  //     contacts: [contacts[11], ...this.state.contacts]
-  //   }))
-  // }
+    this.setState({
+      contacts: [...this.state.contacts, randomContact],
+      undrenderedContacts: unrenderedContacts
+    })
+  }
 
   render() {
 
@@ -30,7 +33,7 @@ class App extends React.Component {
         <tr key={contact.id}>
           <td><img src={contact.pictureUrl} style={{ width: '80px', height: 'auto' }} /></td>
           <td>{contact.name}</td>
-          <td>{contact.name}</td>
+          <td>{contact.popularity}</td>
         </tr>
       )
     })
