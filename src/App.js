@@ -4,15 +4,28 @@ import './App.css';
 import contacts from "./contacts.json";
 
 
-function App(props) {
+class App extends React.Component {
 
-  let contactsList = contacts.map((contact, index) => {
-    if (index < 5) {
-      return contact
-    }
-  })
+  state = {
+    contacts: contacts.slice(0, 5)
+  }
 
-  contactsList = contacts.map(contact => {
+  addRandomContact = () => {
+    this.setState((state, props) => ({
+      contacts: [...this.state.contacts, contacts[Math.floor(Math.random() * Math.floor(contacts.length))]]
+    }))
+  }
+
+  // Why does this function crash the app and the one above doesn't?
+  // addRandomContact() {
+  //   this.setState((state, props) => ({
+  //     contacts: [contacts[11], ...this.state.contacts]
+  //   }))
+  // }
+
+  render() {
+
+    const contactsList = this.state.contacts.map(contact => {
       return (
         <tr key={contact.id}>
           <td><img src={contact.pictureUrl} style={{ width: '80px', height: 'auto' }} /></td>
@@ -20,23 +33,24 @@ function App(props) {
           <td>{contact.name}</td>
         </tr>
       )
-  })
+    })
 
+    return (
 
-return (
-
-  <div className="App">
-    <h1>Iron Contacts</h1>
-    <table>
-      <tr>
-        <th>Picture</th>
-        <th>Name</th>
-        <th>Popularity</th>
-      </tr>
-      {contactsList}
-    </table>
-  </div>
-);
+      <div className="App">
+        <h1>Iron Contacts</h1>
+        <button onClick={this.addRandomContact}>Add random contact</button>
+        <table>
+          <tr>
+            <th>Picture</th>
+            <th>Name</th>
+            <th>Popularity</th>
+          </tr>
+          {contactsList}
+        </table>
+      </div>
+    );
+  }
 }
 
 export default App;
