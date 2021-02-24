@@ -6,18 +6,21 @@ import contacts from "./contacts.json";
 
 function App(props) {
 
-  const contactsList = contacts.map((contact, index) => {
+  let contactsList = contacts.map((contact, index) => {
     if (index < 5) {
-      return (
+      return contact
+    }
+  })
 
+  contactsList = contacts.map(contact => {
+      return (
         <tr key={contact.id}>
           <td><img src={contact.pictureUrl} style={{ width: '80px', height: 'auto' }} /></td>
           <td>{contact.name}</td>
           <td>{contact.name}</td>
         </tr>
       )
-  }
-})
+  })
 
 
 return (
