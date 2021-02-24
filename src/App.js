@@ -26,6 +26,28 @@ class App extends React.Component {
     })
   }
 
+  sortByName = () => {
+    console.log('srt by name called')
+    const sortedContacts = [...this.state.contacts].sort((a, b) => {
+      return a.name.localeCompare(b.name)
+    })
+
+    this.setState({
+      contacts: sortedContacts
+      // undrenderedContacts: unrenderedContacts
+    })
+  }
+
+  sortByPopularity = () => {
+    const sortedContacts = [...this.state.contacts].sort((a, b) => {
+      return b.popularity - a.popularity
+    })
+
+    this.setState({
+      contacts: sortedContacts
+    })
+  }
+
   render() {
 
     const contactsList = this.state.contacts.map(contact => {
@@ -43,6 +65,8 @@ class App extends React.Component {
       <div className="App">
         <h1>Iron Contacts</h1>
         <button onClick={this.addRandomContact}>Add random contact</button>
+        <button onClick={this.sortByName}>Sort by name</button>
+        <button onClick={this.sortByPopularity}>Sort by popularity</button>
         <table>
           <tr>
             <th>Picture</th>
