@@ -14,6 +14,7 @@ class App extends React.Component {
     }
   }
 
+
   addRandomContact = () => {
     const randIndex = Math.floor(Math.random() * this.state.unrenderedContacts.length);
     const randomContact = this.state.unrenderedContacts[randIndex];
@@ -26,17 +27,17 @@ class App extends React.Component {
     })
   }
 
+
   sortByName = () => {
-    console.log('srt by name called')
     const sortedContacts = [...this.state.contacts].sort((a, b) => {
       return a.name.localeCompare(b.name)
     })
 
     this.setState({
       contacts: sortedContacts
-      // undrenderedContacts: unrenderedContacts
     })
   }
+
 
   sortByPopularity = () => {
     const sortedContacts = [...this.state.contacts].sort((a, b) => {
@@ -48,6 +49,19 @@ class App extends React.Component {
     })
   }
 
+
+  deleteContact = (event) => {
+    const targetIndex = this.state.contacts.findIndex(contact => contact.id === event.target.id)
+    // const cleanedContacts = [...this.state.contacts].splice(targetIndex, 1)  <--- why does this one-liner delete everything but the target element?
+    const cleanedContacts = [...this.state.contacts]
+    cleanedContacts.splice(targetIndex, 1)
+
+    this.setState({
+      contacts: cleanedContacts
+    })
+  }
+
+
   render() {
 
     const contactsList = this.state.contacts.map(contact => {
@@ -56,6 +70,7 @@ class App extends React.Component {
           <td><img src={contact.pictureUrl} style={{ width: '80px', height: 'auto' }} /></td>
           <td>{contact.name}</td>
           <td>{contact.popularity}</td>
+          <td><button id={contact.id} onClick={this.deleteContact}>Delete</button></td>
         </tr>
       )
     })
@@ -72,6 +87,7 @@ class App extends React.Component {
             <th>Picture</th>
             <th>Name</th>
             <th>Popularity</th>
+            <th>Action</th>
           </tr>
           {contactsList}
         </table>
